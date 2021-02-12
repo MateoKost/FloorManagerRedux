@@ -1,0 +1,124 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+.floorGrid {
+  display: grid;
+  grid-template-areas:
+    'r0 r4 s0 r8 r10 r14 s1 r18 r22'
+    'r2 r6 s0 r8 r12 r16 s1 r20 r22'
+    'c0 c0 c0 c0 c0 c0 c0 c0 c0'
+    'r1 r5 c1 r9 r11 r15 c2 r19 r23'
+    'r3 r7 c1 r9 r13 r17 c2 r21 r23'
+    ;
+    /* background-color: #2196F3; */
+    padding: 10px;
+}
+
+
+
+.floorGrid > .room {
+    background-color: rgba(145, 76, 76, 0.8);
+    text-align: center;
+    font-size: 10;
+    /*width: 40px;
+    height: 40px;
+    float: left;*/
+}
+
+.floorGrid > .room {
+  background-color: rgba(205, 205, 255, 0.8);
+  text-align: center;
+  font-size: 10;
+  /*width: 40px;
+  height: 40px;
+  float: left;*/
+}
+
+
+.floorGrid > .staircase{
+  background-color:"#B3B3B3";
+  text-align: center;
+  font-size: 10;
+  /*width: 40px;
+  height: 40px;
+  float: left;*/
+}
+
+
+
+
+.badge{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 55px;
+  width: 150px;
+  background: #343A40;
+  display :block;
+  color:#343A40;
+}
+
+.badge:empty {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 55px;
+  width: 150px;
+  background: #202426;
+  display :block;
+}
+
+.neigh {
+  float: left;
+  display: block;
+  width:155px;
+  margin-bottom: 5px;
+}
+
+
+.logo {
+  widows: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
