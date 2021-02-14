@@ -79,7 +79,8 @@ const NavMenu = () => {
           <div style={{marginTop: -4}}><span style={{fontSize: 12}}>Profil</span></div>
           </Button>
 
-          <Button color="dark"  style={{minWidth:"100px"}} onClick={e=>{ localStorage.clear(); history.push("/"); }  }>       
+          <Button color="dark"  style={{minWidth:"100px"}} onClick={e=>{ localStorage.removeItem('user'); //localStorage.clear();
+          history.push("/"); }  }>       
           <div><FontAwesomeIcon icon={faSignOutAlt} className="fa-lg"/></div>
           <div style={{marginTop: -4}}><span style={{fontSize: 12}}>Wyloguj się</span></div>
           </Button>

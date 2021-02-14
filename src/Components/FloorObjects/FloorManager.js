@@ -8,18 +8,9 @@ import {
   faTrash,
   faPen,
   faChair,
-  faHammer,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useHistory,
-} from "react-router-dom";
-
 import itemIconNames from "./IconNames";
-
 import AddModal from "../Modals/AddModal";
 import AddSoldierModal from "../Modals/AddSoldierModal";
 import EditModal from "../Modals/EditModal";
@@ -40,6 +31,10 @@ import {
   DropdownItem,
   NavbarText,
 } from "reactstrap";
+
+
+import { connect } from "react-redux";
+import { addTodo } from "../../redux/actions";
 
 class FloorManager extends Component {
   constructor(props) {
@@ -573,9 +568,12 @@ class FloorManager extends Component {
             <Table striped>
               <thead>
                 <tr>
-                  <th>#</th> <th>Pomieszczenie</th> <th>Nazwa</th>{" "}
+                  <th>#</th> 
+                  <th>Pomieszczenie</th> 
+                  <th>Nazwa</th>{" "}
                   <th>Ikona</th>
-                  <th>Stan</th> <th>Akcje</th>
+                  <th>Stan</th>
+                  <th>Akcje</th>
                 </tr>
               </thead>
               <tbody>
