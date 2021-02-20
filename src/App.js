@@ -8,7 +8,7 @@ import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Component } from 'react';
 
-import LandingPage from './Components/LandingPage/LandingPage'
+import LandingPage from './Components/Views/LandingPage/LandingPage'
 //import FloorManager from './Components/FloorManager'
 
 import  axios  from 'axios';

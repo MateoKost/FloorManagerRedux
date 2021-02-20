@@ -1,13 +1,7 @@
-import React, { Component, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { Component } from "react";
 import {
-  Alert,
-  Table,
   Button,
-  Navbar,
   Card,
-  CardImg,
-  CardText,
   CardBody,
   CardTitle,
   CardSubtitle,
@@ -23,16 +17,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faHammer,
-  faCreditCard,
-  faChair,
-  faTired,
-} from "@fortawesome/free-solid-svg-icons";
 import { Label, FormGroup, Input } from "reactstrap";
 import classnames from "classnames";
 

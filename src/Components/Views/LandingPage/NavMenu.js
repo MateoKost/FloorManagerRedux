@@ -4,8 +4,8 @@ import {
 } from 'reactstrap';
 
 import { useHistory } from "react-router-dom";
-import '../../App.css';
-import eszef from "../../Assets/Eszef.png";
+//import '../../App.css';
+//import eszef from "../../Assets/Eszef.png";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -22,7 +22,7 @@ const NavMenu = (props) => {
 
 <div>
       <Navbar className="navbar-dark bg-dark"  expand="md">
-      <img  className="logo" src={eszef}  alt={"Eszef"} />
+      {/* <img  className="logo" src={eszef}  alt={"Eszef"} /> */}
         <NavbarBrand href="/">E-Szef</NavbarBrand>
         <NavbarToggler 
         // onClick={toggle} 

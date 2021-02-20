@@ -1,44 +1,17 @@
 import React, { useState, useEffect } from "react";
-//import gapi from 'gapi';
 import {
-  Alert,
-  Table,
-  CardImg,
   CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
 } from "reactstrap";
-import axios from "axios";
 import { Label, FormGroup, Input } from "reactstrap";
 import {
   Card,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
   Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
-import "../App.css";
-import { useHistory } from "react-router-dom";
-import eszef from "../Assets/Eszef.png";
-
-import { faPlus,faCalendarDay } from "@fortawesome/free-solid-svg-icons";
-
-import GoogleExcel from "./GoogleExcel";
-
+import "../../App.css";
+import { faPlus, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-
-import DatePicker from "react-date-picker";
 import DateTimePicker from "react-datetime-picker";
 
 function Calendar() {
@@ -54,104 +27,106 @@ function Calendar() {
   ];
   var SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
-
-
   useEffect(() => {
     getEvents();
   }, []);
 
-const getEvents = () => {
-   const handleClick = () => {
-    gapi.load("client:auth2", () => {
-      console.log("loaded client");
+  const getEvents = () => {
+    const handleClick = () => {
+      gapi.load("client:auth2", () => {
+        console.log("loaded client");
 
-      let eventStartTime = formatTheDate(startDate);
-      let eventEndTime = formatTheDate(endDate);
+        let eventStartTime = formatTheDate(startDate);
+        let eventEndTime = formatTheDate(endDate);
 
-      // let eventStartTime = new Date()
-      // eventStartTime.setDate(eventStartTime.getDay() + 1)
+        // let eventStartTime = new Date()
+        // eventStartTime.setDate(eventStartTime.getDay() + 1)
 
-      // // Create a new event end date instance for temp uses in our calendar.
-      // let eventEndTime = new Date()
-      // eventEndTime.setDate(eventEndTime.getDay() + 2)
-      // eventEndTime.setMinutes(eventEndTime.getMinutes() + 22)
+        // // Create a new event end date instance for temp uses in our calendar.
+        // let eventEndTime = new Date()
+        // eventEndTime.setDate(eventEndTime.getDay() + 2)
+        // eventEndTime.setMinutes(eventEndTime.getMinutes() + 22)
 
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOCS,
-        scope: SCOPES,
-      });
+        gapi.client.init({
+          apiKey: API_KEY,
+          clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
+          scope: SCOPES,
+        });
 
-      gapi.client.load("calendar", "v3", () => console.log("bam!"));
+        gapi.client.load("calendar", "v3", () => console.log("bam!"));
 
-      gapi.auth2
-        .getAuthInstance()
-        .signIn()
-        .then(() => {
-          let event = {
-            summary: summaryInput,
+        gapi.auth2
+          .getAuthInstance()
+          .signIn()
+          .then(() => {
+            let event = {
+              summary: summaryInput,
 
-            description: descriptionInput,
-            colorId: 1,
-            start: {
-              dateTime: '',
-              timeZone: "Poland",
-            },
-            end: {
-              dateTime: '',
-              timeZone: "Poland",
-            },
-          };
+              description: descriptionInput,
+              colorId: 1,
+              start: {
+                dateTime: "",
+                timeZone: "Poland",
+              },
+              end: {
+                dateTime: "",
+                timeZone: "Poland",
+              },
+            };
 
-          var request = gapi.client.calendar.events.insert({
-            calendarId: "primary",
-            resource: event,
-          });
-
-          request.execute((event) => {
-
-          });
-
-
-          
-          let days = new Date("2021-01-20");
-
-          gapi.client.calendar.events
-            .list({
+            var request = gapi.client.calendar.events.insert({
               calendarId: "primary",
-              timeMin: days.toISOString(),
-              showDeleted: false,
-              singleEvents: true,
-              maxResults: 100,
-              orderBy: "startTime",
-            })
-            .then((response) => {
-              const events = response.result.items;
-              
-              let ev = [];
-
-              console.log("EVENTS: ", events[1]);
-
-              response.result.items.map( ( {created, end, summary, description }, i) => {
-                let end2 = end.dateTime;
-
-                 ev=[ ...ev, { i:i, created: created, end:end2, summary:summary, description:description }]  
-              })
-
-
-              setEventList2(ev);
-        //   console.log("EVENTS: ", events[1]);
-
-
-
-              console.log(eventList2);
+              resource: event,
             });
 
-          /*
+            request.execute((event) => {});
+
+            let days = new Date("2021-01-20");
+
+            gapi.client.calendar.events
+              .list({
+                calendarId: "primary",
+                timeMin: days.toISOString(),
+                showDeleted: false,
+                singleEvents: true,
+                maxResults: 100,
+                orderBy: "startTime",
+              })
+              .then((response) => {
+                const events = response.result.items;
+
+                let ev = [];
+
+                console.log("EVENTS: ", events[1]);
+
+                response.result.items.map(
+                  ({ created, end, summary, description }, i) => {
+                    let end2 = end.dateTime;
+
+                    ev = [
+                      ...ev,
+                      {
+                        i: i,
+                        created: created,
+                        end: end2,
+                        summary: summary,
+                        description: description,
+                      },
+                    ];
+                  }
+                );
+
+                setEventList2(ev);
+                //   console.log("EVENTS: ", events[1]);
+
+                console.log(eventList2);
+              });
+
+            /*
               Uncomment the following block to get events
           */
-          /*
+            /*
           // get events
           gapi.client.calendar.events.list({
             'calendarId': 'primary',
@@ -165,14 +140,10 @@ const getEvents = () => {
             console.log('EVENTS: ', events)
           })
           */
-        });
-    });
+          });
+      });
+    };
   };
-
-
-}
-
-
 
   const handleClick = () => {
     gapi.load("client:auth2", () => {
@@ -227,8 +198,6 @@ const getEvents = () => {
             window.open(event.htmlLink);
           });
 
-
-          
           let days = new Date("2021-01-20");
 
           gapi.client.calendar.events
@@ -242,22 +211,30 @@ const getEvents = () => {
             })
             .then((response) => {
               const events = response.result.items;
-              
+
               let ev = [];
 
               console.log("EVENTS: ", events[1]);
 
-              response.result.items.map( ( {created, end, summary, description }, i) => {
-                let end2 = end.dateTime;
+              response.result.items.map(
+                ({ created, end, summary, description }, i) => {
+                  let end2 = end.dateTime;
 
-                 ev=[ ...ev, { i:i, created: created, end:end2, summary:summary, description:description }]  
-              })
-
+                  ev = [
+                    ...ev,
+                    {
+                      i: i,
+                      created: created,
+                      end: end2,
+                      summary: summary,
+                      description: description,
+                    },
+                  ];
+                }
+              );
 
               setEventList2(ev);
-        //   console.log("EVENTS: ", events[1]);
-
-
+              //   console.log("EVENTS: ", events[1]);
 
               console.log(eventList2);
             });
@@ -283,10 +260,6 @@ const getEvents = () => {
     });
   };
 
-
-
-
-
   function formatTheDate(date2) {
     let day = date2.toISOString().split("T")[0];
     let time = date2.toISOString().split("T")[1];
@@ -305,10 +278,6 @@ const getEvents = () => {
   const [eventList, setEventList] = useState([]);
   let [eventList2, setEventList2] = useState([]);
 
-
-
-
-
   return (
     <div className="row  p-4">
       {/*         
@@ -321,53 +290,41 @@ const getEvents = () => {
       {/* <header>
           <button style={{width: 100, height: 50}} onClick={handleClick}>Add Event</button>
         </header> */}
-      <div className="col-lg-6 ">Historia
+      <div className="col-lg-6 ">
+        Historia
+        {eventList2.map(
+          ({ i, created, end, description, summary }) => (
+            // <li >{summary} {end} </li>
 
-    
+            <section key={i}>
+              <Card className="m-3 p-3">
+                {/* <CardImg><FontAwesomeIcon icon={faCalendarDay} ></FontAwesomeIcon> </CardImg> */}
+                <div className="product">
+                  <FontAwesomeIcon
+                    className="fa-3x"
+                    icon={faCalendarDay}
+                  ></FontAwesomeIcon>
+                </div>
+                <CardBody>
+                  <CardTitle tag="h4">{summary}</CardTitle>
+                  <CardTitle tag="h6">
+                    {end.split("T")[0]} {end.split("T")[1].split("+")[0]}
+                  </CardTitle>
+                  <CardText>{description}</CardText>
+                </CardBody>
+              </Card>
 
+              <div>{/* {i} */}</div>
+            </section>
+          )
 
+          // <li key={i}>
 
-      {   eventList2.map(( {i, created, end, description, summary} ) => 
+          //    {  created } {description}
 
-        // <li >{summary} {end} </li>
-
-        <section key={i}>
-
-
-<Card className="m-3 p-3">
-{/* <CardImg><FontAwesomeIcon icon={faCalendarDay} ></FontAwesomeIcon> </CardImg> */}
-<div className="product">
-<FontAwesomeIcon  className="fa-3x" icon={faCalendarDay} ></FontAwesomeIcon>
-              </div>
-          <CardBody>
-      
-            <CardTitle tag="h4">{summary}</CardTitle>
-            <CardTitle tag="h6">{end.split('T')[0]} {end.split('T')[1].split('+')[0]}</CardTitle>
-            <CardText>{description}</CardText>
-            </CardBody>
-            </Card >
-
-          <div>
-
-{/* {i} */}
-
-</div>
-          </section>
-
-
-
-
-
-        // <li key={i}> 
-          
-        //    {  created } {description} 
-           
-           
-        //    </li>
-
-      )}
-
-</div>
+          //    </li>
+        )}
+      </div>
       <div className="col-lg-6 ">
         <Card className="m-3">
           <CardBody>
