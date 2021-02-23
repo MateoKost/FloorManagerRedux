@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+
+
 import {
   Label,
   FormGroup,
@@ -14,37 +16,110 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import itemIconNames from '../../Components/FloorObjects/IconNames';
+import itemIconNames from './IconNames';
 
+import { addItem } from "./itemsSlice";
+import { connect } from 'react-redux'
+
+
+const mapDispatchToProps = dispatch => ({
+  newItem: (newItemData) => {dispatch(addItem(newItemData))},
+ });
+ 
 class AddModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        onEnter: props.onEnter,
         newItemModal: props.newItemModal, 
+        onEnter: props.onEnter,
         onCancel: props.onCancel,
         newItemData: {
-            id: '',
-            idRoom: '',
             itemName: '',
+            idRoom: 0,
           },
     };
   }
 
   toggleNewItemModal(){
-    this.state.onCancel(this.state.newItemModal);
+    //console.log('dupaaa');
+    this.state.onCancel(!this.state.newItemModal);
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-        newItemModal: nextProps.newItemModal,
-    })
+  enterNewItem = async() => {
+    await this.props.newItem(this.state.newItemData)
+    await this.state.onEnter();
+  };
+
+  // toggleNewItemModal2(){
+  //   console.log('123dupaaa');
+  //  // this.setState({newItemModal:value});
+  // };
+
+
+  // shouldComponentUpdate() {
+  //   return true;
+  // }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    // prevState.setState({
+    //           newItemModal: nextProps.newItemModal,
+    //       })
+    // console.log(nextProps.newItemModal);
+    // this.toggleNewItemModal2();
+    //prevState.newItemModal=nextProps.newItemModal
+
+  //   console.log(prevState);
+
+  //   if( nextProps.newItemModal !== prevState.newItemModal )
+  //   return {
+  //     newItemModal:nextProps.newItemModal,
+  //     onEnter:prevState.onEnter,
+  //     onCancel:prevState.onCancel,
+  //     newItemData:prevState.newItemData
+  //   }
+
+    // return prevState;
+    return{
+            newItemModal: nextProps.newItemModal,
+        }
+
   }
+
+  // componentDidUpdate(nextProps, prevState) {
+
+  //   //this.toggleNewItemModal();
+  //   console.log("hoho "+nextProps.newItemModal);
+  //   console.log("hoho2"+this.state.newItemModal);
+  //   console.log("hoho3"+prevState.newItemModal);
+  //     // console.log("hoho2"+this.state.newItemModal);
+  //   // if( nextProps.newItemModal !== prevState.newItemModal){
+  //   //   // console.log("hoho"+nextProps.newItemModal);
+  //   //   // console.log("hoho2"+this.state.newItemModal);
+  //   //   this.setState({ newItemModal: nextProps.newItemModal  })
+  //   //   //console.log(this.state);
+  //   // }
+  
+  //   // this.setState({ newItemModal: nextProps.newItemModal  })
+
+  //   }
+
+
+  // componentWillReceiveProps(nextProps) {
+  //      console.log('dupaaa');
+  //   this.setState({
+  //       newItemModal: nextProps.newItemModal,
+  //   })
+  // }
 
   addItem(){
     const { newItemData, onEnter } = this.state;
     onEnter(newItemData);
   };
+
+  // componentDidUpdate(){
+
+  // }
+
 
   componentDidMount() {
 
@@ -52,6 +127,7 @@ class AddModal extends Component {
 
   render() {
     const { newItemModal, newItemData } = this.state;
+    const {newItem} = this.props
     return (
         <div>
 
@@ -69,7 +145,7 @@ class AddModal extends Component {
               placeholder="Pomieszczenie"
               value={newItemData.idRoom}
               onChange={(e) => {
-                newItemData.idRoom = e.target.value;
+                newItemData.idRoom = parseInt(e.target.value);
                 this.setState({ newItemData });
               }}
             />
@@ -95,7 +171,7 @@ class AddModal extends Component {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.addItem.bind(this)}>
+          <Button color="primary" onClick={this.enterNewItem.bind(this)}>
             Zatwierdź
           </Button>{" "}
           <Button
@@ -111,4 +187,5 @@ class AddModal extends Component {
   }
 }
 
-export default AddModal;
+export default connect(null, mapDispatchToProps)(AddModal);
+// export default ;

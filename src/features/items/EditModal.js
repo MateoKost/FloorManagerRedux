@@ -12,6 +12,12 @@ import {
 } from "reactstrap";
 
 //import itemIconNames from '../FloorObjects/IconNames';
+import { editItem } from "./itemsSlice";
+import { connect } from 'react-redux'
+
+const mapDispatchToProps = dispatch => ({
+  editItem: (editItemData) => {dispatch(editItem(editItemData))},
+ });
 
 class EditModal extends Component {
   constructor(props) {
@@ -24,27 +30,27 @@ class EditModal extends Component {
     };
   }
 
-  editItem() {
-    const { editItemData, onEnter } = this.state;
-    onEnter( editItemData );
+  enterEditItem = async() => {
+    await this.props.editItem(this.state.editItemData)
+    await this.state.onEnter();
+    // const { editItemData, onEnter } = this.state;
+    // onEnter( editItemData );
   }
 
-  toggleEditItemModal() {
+  toggleEditItemModal = () => {
     // this.setState({
     //   editItemModal: ! this.state.editItemModal
     // });
 
-    this.state.onCancel(this.state.editItemModal);
+    this.state.onCancel( ! this.state.editItemModal);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      editItemModal: nextProps.editItemModal,
-      editItemData: nextProps.editItemData,
-    });
+  static getDerivedStateFromProps(nextProps, prevState){
+    return{
+        editItemModal: nextProps.editItemModal,
+        editItemData: nextProps.editItemData
+    }
   }
-
-  componentDidMount() {}
 
   render() {
     const { editItemModal, editItemData } = this.state;
@@ -76,7 +82,7 @@ class EditModal extends Component {
               placeholder="Pomieszczenie"
               value={editItemData.idRoom}
               onChange={(e) => {
-                editItemData.idRoom = e.target.value;
+                editItemData.idRoom = parseInt(e.target.value);
                 this.setState({ editItemData });
               }}
             />
@@ -94,7 +100,7 @@ class EditModal extends Component {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.editItem.bind(this)}>
+          <Button color="primary" onClick={this.enterEditItem.bind(this)}>
             Zatwierdź
           </Button>{" "}
           <Button
@@ -109,4 +115,5 @@ class EditModal extends Component {
   }
 }
 
-export default EditModal;
+export default connect(null, mapDispatchToProps)(EditModal);
+// export default EditModal;

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getItems } from '../../api/client'
+import { client } from '../../api/client'
 import { useSelector, useDispatch } from "react-redux";
 
 const initialState = {
@@ -8,61 +8,73 @@ const initialState = {
   error: null,
 }
 
-export const getItems2 = createAsyncThunk('items/getItems2', async () => {
-//   const dispatch = useDispatch();
-//  // dispatch(itemsLoading());
-//   this.state.status = 'pending'
-  const response = await getItems();
-  // dispatch(itemsReceived(response.items));
+const serverURL = `https://localhost:5001`;
+
+export const getItems = createAsyncThunk('items/getItems', async () => {
+  // const response = await getItems();
+  //console.log('xdd')
+  const response = await client.getItems(serverURL+"/item");
   return response.data
 })
 
+export const addItem = createAsyncThunk('items/deleteItem', async (newItemData) => {
+  // const response = await getItems();
+  const response = await client.addItem(serverURL+"/item", newItemData);
+  return response
+})
+
+export const deleteItem = createAsyncThunk('items/deleteItem', async (id) => {
+  // const response = await getItems();
+  await client.deleteItem(serverURL+`/item/${id}`);
+  return { id:id }
+})
+
+export const editItem = createAsyncThunk('items/editItem', async (editItemData) => {
+  // const response = await getItems();
+  console.log(editItemData)
+  const response = await client.editItem(serverURL+`/${editItemData.idRoom}/${editItemData.id}`);
+  return response
+})
 
 const itemsSlice = createSlice({
     name: 'items',
     initialState,
     reducers: {
-      // itemsLoading(state, action) {
-      //   // Use a "state machine" approach for loading state instead of booleans
-      //   if(state.status === 'idle') {
-      //       state.status = 'pending'
-      //   } },
-      //   itemsReceived(state, action) {
-      //     if(state.status === 'pending') {
-      //         state.status = 'fulfilled'
-      //         state.items = action.payload
-      //     }
-      // }
-   
     },
     extraReducers: {
-      [getItems2.pending]: (state, action) => {
+      [getItems.pending]: (state, action) => {
         state.status = 'pending'
       },
-      [getItems2.fulfilled]: (state, action) => {
+      [getItems.fulfilled]: (state, action) => {
         state.status = 'fulfilled'
-        // Add any fetched posts to the array
-        //state.items = state.items.concat(action.payload)
         state.items = action.payload
-        //console.log(state.items.items)
       },
-      [getItems2.rejected]: (state, action) => {
+      [getItems.rejected]: (state, action) => {
         state.status = 'failed'
         state.error = action.payload
       },
+      // [deleteItem.pending]: (state, action) => {
+      //   state.status = 'pending'
+      // },
+      [deleteItem.fulfilled]: (state, action) => {
+        state.status = 'fulfilled'
+        const { id } = action.payload
+        const item = state.items.find((item) => item.id === id)
+        state.items.pop(item)
+      },
+      // [deleteItem.rejected]: (state, action) => {
+      //   state.status = 'failed'
+      //   state.error = action.payload
+      // },
     },
   })
   
-  // export const { pitemsLoading, itemsReceived } = itemsSlice.actions
+  // export const { } = itemsSlice.actions
   
   export default itemsSlice.reducer
   
   export const selectAllItems = (state) => {
-    //console.log('dupaaaaaaaaaaaaaaaaa?????');
-    //console.log(state.items.items);
     return state.items.items;
   }
-  
-//   export const selectPostById = (state, postId) =>
-//     state.posts.posts.find((post) => post.id === postId)
+
   
