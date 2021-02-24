@@ -47,7 +47,7 @@ class AddModal extends Component {
 
   enterNewItem = async() => {
     await this.props.newItem(this.state.newItemData)
-    await this.state.onEnter();
+    await this.state.onEnter(this.state.newItemData);
   };
 
   // toggleNewItemModal2(){
@@ -111,10 +111,10 @@ class AddModal extends Component {
   //   })
   // }
 
-  addItem(){
-    const { newItemData, onEnter } = this.state;
-    onEnter(newItemData);
-  };
+  // addItem(){
+  //   const { newItemData, onEnter } = this.state;
+  //   onEnter(newItemData);
+  // };
 
   // componentDidUpdate(){
 
@@ -171,7 +171,7 @@ class AddModal extends Component {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.enterNewItem.bind(this)}>
+          <Button color="info" onClick={this.enterNewItem.bind(this)}>
             Zatwierdź
           </Button>{" "}
           <Button

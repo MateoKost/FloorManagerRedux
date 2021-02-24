@@ -32,7 +32,7 @@ class EditModal extends Component {
 
   enterEditItem = async() => {
     await this.props.editItem(this.state.editItemData)
-    await this.state.onEnter();
+    await this.state.onEnter(this.state.editItemData);
     // const { editItemData, onEnter } = this.state;
     // onEnter( editItemData );
   }
@@ -100,7 +100,7 @@ class EditModal extends Component {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.enterEditItem.bind(this)}>
+          <Button color="info" onClick={this.enterEditItem.bind(this)}>
             Zatwierdź
           </Button>{" "}
           <Button

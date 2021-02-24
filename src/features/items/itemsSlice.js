@@ -77,4 +77,10 @@ const itemsSlice = createSlice({
     return state.items.items;
   }
 
+  export const selectItemsByRoomId = (state, roomId) => {
+    // console.log(state.items.items.filter((item)=>item.idRoom===roomId));
+    return state.items.items.filter((item)=>item.idRoom===roomId);
+  }
+
+  
   

@@ -1,65 +1,43 @@
-import React, { Component } from "react";
-import { Alert } from "reactstrap";
+import React from "react";
+import { UncontrolledAlert } from "reactstrap";
 
+export const AlertPanel = (props) => {
+  const { data, entity, type, visibility } = props;
 
-class AlertPanel extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        alertVisibility: false,
-        alertVisibilityDeleted: false,
-        addedData: {
-          id: "",
-          idRoom: "",
-          itemName: "",
-        },
-      };
+  const pre = (() => {
+    switch (type) {
+      case "success":
+        return "Dodano";
+      case "info":
+        return "Przeniesiono";
+      case "warning":
+        return "Usunięto";
+      default:
+        return "";
     }
-  
-    toggleSuccessAlerts() {
-        this.setState({
-          alertVisibility: false,
-        });
-      }
-    
-      toggleWarningAlerts() {
-        this.setState({
-          alertVisibilityDeleted: false,
-        });
-      }
+  })();
 
-    onDismiss  = () => this.setState({ alertVisibility: false });
-    onDismissDeleted = () => this.setState({ alertVisibilityDeleted: false });
-  
-
-    render() {
-      const {alertVisibility, addedData, alertVisibilityDeleted} = this.state;
-      return (
-        <div>
-            {alertVisibility && (
-              <Alert
-                color="success"
-                isOpen={alertVisibility}
-                toggle={this.toggleSuccessAlerts.bind(this)}
-              >
-                Dodano <b>{addedData.itemName}</b> do pokoju nr{" "}
-                <b>{addedData.idRoom}</b>.
-              </Alert>
-            )}
-
-            {alertVisibilityDeleted && (
-              <Alert
-                color="warning"
-                isOpen={alertVisibilityDeleted}
-                toggle={this.toggleWarningAlerts.bind(this)}
-              >
-                Usunięto <b>{addedData.itemName}</b> z pokoju nr{" "}
-                <b>{addedData.idRoom}</b>.
-              </Alert>
-            )}
-        </div>
-      );
+  const alertData = (() => {
+    switch (entity) {
+      case "item":
+        return `${data.itemName}`;
+      case "soldier":
+        return `${data.rank} ${data.name} ${data.lastName}`;
+      default:
+        return "";
     }
-  }
+  })();
 
-  export default AlertPanel;
+  return (
+    <div>
+      {visibility && (
+        <UncontrolledAlert color={type}>
+           <span>
+                {pre} <b>{alertData}</b> - pokój nr <b>{data.idRoom}</b>
+          </span>
+        </UncontrolledAlert>
+      )}
+    </div>
+  );
+};
+export default AlertPanel;
