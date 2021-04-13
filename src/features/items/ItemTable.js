@@ -13,9 +13,7 @@ import { selectAllItems, selectItemsByRoomId, getItems, deleteItem } from "./ite
 
 export const ItemTable = (props) => {
   const dispatch = useDispatch();
-  // const items = useSelector(selectAllItems);
   const items = useSelector( props.roomId ==="" ? selectAllItems : (state) => selectItemsByRoomId(state, props.roomId) );
-  // const items = useSelector( selectAllItems );
   const itemStatus = useSelector((state) => state.items.status);
   const error = useSelector((state) => state.items.error);
 

@@ -119,7 +119,7 @@ class SignInModal extends Component {
 
         <Modal isOpen={signInModal}>
           <ModalHeader cssModule={{ "modal-title": "w-100 text-center" }}>
-            Zaloguj
+            Logowanie
           </ModalHeader>
           <ModalBody>
             <FormGroup>
